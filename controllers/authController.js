@@ -40,25 +40,35 @@ const createToken = (id) => {
     });
 };
 
-// controller actions
-module.exports.register_get = (req, res) => {
-    res.render("register");
+// get registered users
+module.exports.register_get = async (req, res) => {
+    try {
+        const user = await User.find({});
+        if (user) {
+            res.status(200).send(user);
+        }
+
+        else {
+            res.status(200).json({ message: "user not found" })
+        }
+    }
+
+    catch (err) {
+        res.status(200).json({ message: "internal server error" });
+        console.log(err);
+
+    }
+
 };
 
-module.exports.login_get = (req, res) => {
-    res.render("login");
-};
 
 module.exports.register_post = async (req, res) => {
     const { name, email, password, address, profilePic } = req.body;
 
     try {
         const user = await User.create({
-            name, email, password, address,
-            profilePic: {
-                public_id: "this is simple id",
-                url: "profilepicUrl"
-            }
+            name, email, password, address, profilePic
+
         });
         const token = createToken(user._id);
         res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
@@ -69,11 +79,17 @@ module.exports.register_post = async (req, res) => {
     }
 };
 
+
 module.exports.login_post = async (req, res) => {
     const { email, password } = req.body;
-
     try {
+        if (!email || !password) {
+            return res.status(400).json({ message: "email and password are required" });
+        }
         const user = await User.login(email, password);
+        if (!user) {
+            return res.status(400).json({ errors: "User not found" });
+        }
         const token = createToken(user._id);
         res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
         res.status(200).json({ userToken: token });
@@ -83,9 +99,19 @@ module.exports.login_post = async (req, res) => {
     }
 };
 
+
 module.exports.logout_get = (req, res) => {
-    res.cookie("jwt", "", { maxAge: 1 });
-    res.redirect("/");
+    const user = User.findById(req.params.id);
+    if (user) {
+        res.status(200);
+        res.cookie("jwt", "", { maxAge: 1 });
+        res.json({ message: "user logged out" });
+    }
+
+    else {
+        res.sttaus(400).json({ message: "user not found" })
+    }
+
 };
 
 

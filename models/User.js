@@ -28,17 +28,8 @@ const userSchema = new mongoose.Schema({
     },
 
     profilePic: {
-        // type: String,
-        // default: "",
-        public_id: {
-            type: String,
-            required: true,
-        },
-        url: {
-            type: String,
-            required: true,
-        },
-
+        type: String,
+        default: "",
     },
 
     address: {
@@ -51,7 +42,6 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: "user",
     }
-
 
 },
 
@@ -77,8 +67,6 @@ userSchema.statics.login = async function (email, password) {
     }
     throw Error("incorrect email");
 };
-
-
 
 const User = mongoose.model("user", userSchema);
 
