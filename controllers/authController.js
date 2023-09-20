@@ -99,7 +99,6 @@ module.exports.login_post = async (req, res) => {
 };
 
 
-
 module.exports.logout_get = (req, res) => {
     const user = User.findById(req.params.id);
     if (user) {

@@ -29,7 +29,7 @@ app.get('/', (req, res) => {
     res.render('home');
 });
 
-app.get("*", checkUser);
+app.get('a', checkUser);
 app.use('/auth', authRoutes);
 app.use('/order', orderRoutes);
 app.use('/products', productRoutes);
