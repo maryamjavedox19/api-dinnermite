@@ -9,7 +9,7 @@ router.get('/:id', getProductsById);
 router.post('/', checkUser, addProduct);
 router.put('/update/:id', checkUser, updateProduct);
 router.delete('/delete/:id', checkUser, deleteProduct);
-router.post('/orderplacedimg', upload.single('image'), placeOrderImg);
+// router.post('/orderplacedimg', upload.single('image'), placeOrderImg);
 
 module.exports = router;
 
