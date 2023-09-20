@@ -1,7 +1,7 @@
 const Product = require("../models/productSchema");
 const asyncHandler = require("express-async-handler");
 const multer = require("multer");
-const ApiFeatures = require("../utils/apiFeatures");
+const ApiFeatures = require("../utils/apifeatures");
 
 // get all products
 module.exports.getProducts = asyncHandler(async (req, res) => {
