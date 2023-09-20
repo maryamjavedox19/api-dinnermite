@@ -29,11 +29,11 @@ module.exports.getProductsById = asyncHandler(async (req, res) => {
 });
 
 
-// // create product
+// create product
 module.exports.addProduct = async (req, res) => {
     try {
-        const { title, category, subCategories, inStock, thumbnail } = req.body;
-        if (!title || !category || !subCategories || !inStock || !thumbnail) {
+        const { title, category, subCategories, inStock, description, price, thumbnail } = req.body;
+        if (!title || !category || !subCategories || !inStock || !description || !price || !thumbnail) {
             return res.status(400).json({ error: "Missing required credentials" });
         }
         const product = await Product.create({
@@ -41,7 +41,9 @@ module.exports.addProduct = async (req, res) => {
             category,
             subCategories,
             inStock,
-            thumbnail,
+            description,
+            price,
+            thumbnail
 
         });
         res.status(201).json({ msg: "Product created successfully" });
@@ -93,28 +95,28 @@ module.exports.deleteProduct = asyncHandler(async (req, res) => {
 
 
 // // saving images
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, "uploads/");
-        // err, destination
-    },
-    filename: function (req, file, cb) {
-        const uniqueSuffix = Date.now();
-        cb(null, uniqueSuffix + file.originalname);
-    },
-});
+// const storage = multer.diskStorage({
+//     destination: function (req, file, cb) {
+//         cb(null, "uploads/");
+//         // err, destination
+//     },
+//     filename: function (req, file, cb) {
+//         const uniqueSuffix = Date.now();
+//         cb(null, uniqueSuffix + file.originalname);
+//     },
+// });
 
-module.exports.upload = multer({ storage: storage });
+// module.exports.upload = multer({ storage: storage });
 
-module.exports.placeOrderImg = async (req, res) => {
-    console.log(req.body);
-    const imgName = req.file.filename;
-    try {
-        await Product.create({
-            image: imgName,
-        });
-        res.status(200).json({ status: "ok" });
-    } catch (err) {
-        res.status(400).json({ status: err });
-    }
-};
+// module.exports.placeOrderImg = async (req, res) => {
+//     console.log(req.body);
+//     const imgName = req.file.filename;
+//     try {
+//         await Product.create({
+//             image: imgName,
+//         });
+//         res.status(200).json({ status: "ok" });
+//     } catch (err) {
+//         res.status(400).json({ status: err });
+//     }
+// };

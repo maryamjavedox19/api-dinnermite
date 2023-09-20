@@ -23,12 +23,23 @@ const productSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
+
+    description: {
+        type: String,
+        required: true,
+    },
+
+    price: {
+        type: Number,
+        required: true,
+    },
+
     thumbnail: {
         type: String,
         required: true,
     },
 
-    images: [imageSchema],
+    // images: [imageSchema],
 });
 
 const Product = mongoose.model('product', productSchema);
