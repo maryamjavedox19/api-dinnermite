@@ -4,7 +4,8 @@ const { checkUser } = require('../middleware/authMiddleware');
 const router = express.Router();
 
 
-router.get('/', getProducts);
+
+router.get('/', cors(), getProducts);
 router.get('/:id', getProductsById);
 router.post('/', checkUser, addProduct);
 router.put('/update/:id', checkUser, updateProduct);

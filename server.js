@@ -9,7 +9,14 @@ const connectDb = require("./config/dbConnection");
 const { notFound, errHandler } = require('./middleware/errorMiddleware.js');
 const bodyParser = require("body-parser");
 const orderRoutes = require('./routes/orderRoutes');
+const cors = require('cors');
 
+
+app.use(cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+
+}));
 
 app.use(express.static("public"));
 app.use(express.json());

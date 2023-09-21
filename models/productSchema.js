@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
-const imageSchema = new mongoose.Schema({
-    image: String,
-});
+// const imageSchema = new mongoose.Schema({
+//     image: String,
+// });
 
 const productSchema = new mongoose.Schema({
     title: {
