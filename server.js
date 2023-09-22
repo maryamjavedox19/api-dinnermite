@@ -12,7 +12,13 @@ const orderRoutes = require('./routes/orderRoutes');
 const cors = require('cors');
 
 
-app.use(cors());
+const corsOptions = {
+    origin: 'http://localhost:5000/',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+};
+
+app.use(cors(corsOptions));
 
 app.use(express.static("public"));
 app.use(express.json());
