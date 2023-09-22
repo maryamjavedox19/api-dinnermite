@@ -5,7 +5,7 @@ const router = express.Router();
 
 
 
-router.get('/', cors(), getProducts);
+router.get('/', getProducts);
 router.get('/:id', getProductsById);
 router.post('/', checkUser, addProduct);
 router.put('/update/:id', checkUser, updateProduct);
