@@ -44,14 +44,14 @@ const createToken = (id) => {
 // get registered users
 module.exports.register_get = async (req, res) => {
     try {
-        const user = await User.find({});
+        const user = await User.find({}).select('-password');
         if (user) {
             res.status(200).send(user);
         } else {
-            res.status(200).json({ message: "user not found" });
+            res.status(400).json({ message: "user not found" });
         }
     } catch (err) {
-        res.status(200).json({ message: "internal server error" });
+        res.status(400).json({ message: "internal server error" });
     }
 };
 
@@ -91,7 +91,7 @@ module.exports.login_post = async (req, res) => {
         }
         const token = createToken(user._id);
         res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
-        res.status(200).json({ userToken: token });
+        res.status(200).send(user);
     } catch (err) {
         const errors = handleErrors(err);
         res.status(400).send(errors);
