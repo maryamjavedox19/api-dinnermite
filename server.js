@@ -11,7 +11,6 @@ const bodyParser = require("body-parser");
 const orderRoutes = require('./routes/orderRoutes');
 const cors = require('cors');
 
-
 app.use(cors());
 
 app.use(express.static("public"));
