@@ -44,7 +44,7 @@ const createToken = (id) => {
 // get registered users
 module.exports.register_get = async (req, res) => {
     try {
-        const user = await User.find({}).select('-password');
+        const user = await User.find({}).select('isAdmin _id name email address');
         if (user) {
             res.status(200).send(user);
         } else {
@@ -69,7 +69,13 @@ module.exports.register_post = async (req, res) => {
 
         const token = createToken(user._id);
         res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
-        res.status(201).send(user);
+        res.status(201).json({
+            isAdmin: user.isAdmin,
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            address: user.address
+        });
     } catch (err) {
         const errors = handleErrors(err);
         res.status(400).send(errors);
@@ -91,7 +97,14 @@ module.exports.login_post = async (req, res) => {
         }
         const token = createToken(user._id);
         res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
-        res.status(200).send(user);
+        res.status(200).json({
+            token,
+            isAdmin: user.isAdmin,
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            address: user.address
+        });
     } catch (err) {
         const errors = handleErrors(err);
         res.status(400).send(errors);

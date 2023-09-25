@@ -54,7 +54,6 @@ module.exports.addProduct = async (req, res) => {
 };
 
 
-
 // update product
 module.exports.updateProduct = asyncHandler(async (req, res) => {
     let product = await Product.findById(req.params.id);
@@ -74,7 +73,6 @@ module.exports.updateProduct = asyncHandler(async (req, res) => {
         product,
     });
 });
-
 
 
 // delete product
