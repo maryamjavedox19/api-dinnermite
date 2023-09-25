@@ -8,32 +8,25 @@ module.exports.addOrder = async (req, res) => {
             orderId,
             products,
             shippingAddress,
-            details,
             contactNumber,
-            order,
             total,
         } = req.body;
+
+        if (!name || !orderId || !products || !shippingAddress || !contactNumber || !total) {
+            return res.status(400).json({ message: "all fields are required" })
+        }
 
         const orderr = await Order.create({
             name,
             orderId,
             products,
             shippingAddress,
-            details,
             contactNumber,
-            order,
             total,
         });
 
-        if (!orderr) {
-            return res.status(400).json({
-                error: "all fields are required",
-            });
-        }
-
-        res.status(201).json({ message: "order created" });
+        return res.status(201).send(orderr);
     } catch (error) {
-        console.error(error);
         res.status(500).json({ error: "Internal server error" });
     }
 };
@@ -46,7 +39,7 @@ module.exports.getOrder = async (req, res) => {
             return res.status(404).json({ error: "No orders found" });
         }
 
-        res.status(200).json(orders);
+        res.status(200).send(orders);
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Internal server error" });
@@ -62,7 +55,7 @@ module.exports.getOrderById = async (req, res) => {
             return res.status(404).json({ error: "Order not found" });
         }
 
-        res.status(200).json(orderr);
+        res.status(200).send(orderr);
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Internal server error" });
@@ -87,7 +80,7 @@ module.exports.updateOrder = async (req, res) => {
             return res.status(404).json({ error: "order not found after update" });
         }
 
-        res.status(200).json(orderForUpdate);
+        res.status(200).send(orderForUpdate);
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Internal server error" });

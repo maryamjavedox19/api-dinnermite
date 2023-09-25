@@ -34,18 +34,8 @@ const orderSchema = new mongoose.Schema({
         required: true,
     },
 
-    details: {
-        type: String,
-        required: true,
-    },
-
     contactNumber: {
         type: Number,
-        required: true,
-    },
-
-    order: {
-        type: String,
         required: true,
     },
 
