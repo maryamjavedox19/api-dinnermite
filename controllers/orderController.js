@@ -3,17 +3,18 @@ const Order = require("../models/orderSchema");
 // create order
 module.exports.addOrder = async (req, res) => {
     try {
-        const {
-            name,
-            orderId,
-            products,
-            shippingAddress,
-            contactNumber,
-            total,
-        } = req.body;
+        const { name, orderId, products, shippingAddress, contactNumber, total } =
+            req.body;
 
-        if (!name || !orderId || !products || !shippingAddress || !contactNumber || !total) {
-            return res.status(400).json({ message: "all fields are required" })
+        if (
+            !name ||
+            !orderId ||
+            !products ||
+            !shippingAddress ||
+            !contactNumber ||
+            !total
+        ) {
+            return res.status(400).json({ message: "all fields are required" });
         }
 
         const orderr = await Order.create({
