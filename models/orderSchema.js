@@ -30,6 +30,12 @@ const orderSchema = new mongoose.Schema({
         required: true,
     },
 
+    status: {
+        type: String,
+        default: 'pending',
+        required: false,
+    }
+
 });
 
 
