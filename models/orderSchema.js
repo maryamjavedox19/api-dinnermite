@@ -34,6 +34,11 @@ const orderSchema = new mongoose.Schema({
         type: String,
         default: 'pending',
         required: false,
+    },
+
+    customerId: {
+        type: String,
+        required: true,
     }
 
 });
