@@ -78,7 +78,8 @@ module.exports.register_post = async (req, res) => {
         });
     } catch (err) {
         const errors = handleErrors(err);
-        res.status(400).send(errors);
+        const errorsText = Object.values(errors).join("");
+        res.status(400).send(errorsText);
     }
 };
 
@@ -107,8 +108,8 @@ module.exports.login_post = async (req, res) => {
         });
     } catch (err) {
         const errors = handleErrors(err);
-        res.status(400).send(errors);
-
+        const errorsText = Object.values(errors).join("");
+        res.status(400).send(errorsText);
     }
 };
 
