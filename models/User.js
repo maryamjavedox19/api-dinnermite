@@ -9,7 +9,6 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, "Please Enter Your Name"],
         maxLength: [30, "Name cannot exceed 30 characters"],
-        minLength: [4, "Name should have more than 4 characters"],
     },
 
     email: {
@@ -40,6 +39,10 @@ const userSchema = new mongoose.Schema({
     isAdmin: {
         type: Boolean,
         default: false,
+    },
+
+    customerId: {
+        type: String
     }
 
 },

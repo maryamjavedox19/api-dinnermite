@@ -1,3 +1,4 @@
+const User = require("../models/User");
 const Order = require("../models/orderSchema");
 
 // create order
@@ -24,6 +25,7 @@ module.exports.addOrder = async (req, res) => {
             shippingAddress,
             contactNumber,
             total,
+            customerId=User._id,
         });
 
         return res.status(201).send(orderr);
