@@ -42,7 +42,7 @@ const createToken = (id) => {
 };
 
 // get registered users
-module.exports.register_get = async (req, res) => {
+module.exports.getAllUsers = async (req, res) => {
     try {
         const user = await User.find({}).select('isAdmin _id name email address');
         if (user) {
@@ -124,3 +124,33 @@ module.exports.logout_get = (req, res) => {
         res.status(400).json({ message: "user not found" });
     }
 };
+
+// update user
+module.exports.updateUser = async (req, res) => {
+    let user = await User.findById(req.params.id);
+    if (!user) {
+        res.status(404);
+        throw new Error("user not found");
+    }
+
+    const { email, password } = req.body;
+    let obj;
+    // obj.name = name;
+    obj.email = email;
+    obj.password = password;
+
+
+
+
+    user = await User.findByIdAndUpdate(req.params.id, obj, {
+        new: true,
+        runValidators: true,
+        useFindAndModify: false,
+    });
+
+    res.status(200).json({
+        success: true,
+        user,
+    });
+};
+

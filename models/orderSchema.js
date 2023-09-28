@@ -36,10 +36,7 @@ const orderSchema = new mongoose.Schema({
         required: false,
     },
 
-    customerId: {
-        type: String,
-        required: true,
-    }
+
 
 });
 

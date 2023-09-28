@@ -25,7 +25,6 @@ module.exports.addOrder = async (req, res) => {
             shippingAddress,
             contactNumber,
             total,
-            customerId=User._id,
         });
 
         return res.status(201).send(orderr);
