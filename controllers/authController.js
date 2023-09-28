@@ -126,31 +126,72 @@ module.exports.logout_get = (req, res) => {
 };
 
 // update user
+// module.exports.updateUser = async (req, res) => {
+//     let user = await User.findById(req.params.id);
+//     if (!user) {
+//         res.status(404);
+//         throw new Error("user not found");
+//     }
+
+//     const { email, password } = req.body;
+//     let obj;
+//     // obj.name = name;
+//     obj.email = email;
+//     obj.password = password;
+
+
+
+
+//     user = await User.findByIdAndUpdate(req.params.id, obj, {
+//         new: true,
+//         runValidators: true,
+//         useFindAndModify: false,
+//     });
+
+//     res.status(200).json({
+//         success: true,
+//         user,
+//     });
+// };
+
+
 module.exports.updateUser = async (req, res) => {
-    let user = await User.findById(req.params.id);
-    if (!user) {
-        res.status(404);
-        throw new Error("user not found");
+    try {
+        let user = await User.findById(req.params.id);
+        if (!user) {
+            res.status(404);
+            throw new Error("User not found");
+        }
+
+        const { name, email, password } = req.body;
+
+        const updateFields = {};
+        if (name) {
+            updateFields.name = name;
+
+        }
+        if (email) {
+            updateFields.email = email;
+        }
+        if (password) {
+            updateFields.password = password;
+        }
+
+        user = await User.findByIdAndUpdate(
+            req.params.id,
+            updateFields,
+            {
+                new: true,
+                runValidators: true,
+                useFindAndModify: false,
+            }
+        );
+
+        res.status(200).json({
+            success: true,
+            user,
+        });
+    } catch (error) {
+        res.status(500).json({ error: "Internal server error" });
     }
-
-    const { email, password } = req.body;
-    let obj;
-    // obj.name = name;
-    obj.email = email;
-    obj.password = password;
-
-
-
-
-    user = await User.findByIdAndUpdate(req.params.id, obj, {
-        new: true,
-        runValidators: true,
-        useFindAndModify: false,
-    });
-
-    res.status(200).json({
-        success: true,
-        user,
-    });
 };
-
