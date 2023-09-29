@@ -125,35 +125,6 @@ module.exports.logout_get = (req, res) => {
     }
 };
 
-// update user
-// module.exports.updateUser = async (req, res) => {
-//     let user = await User.findById(req.params.id);
-//     if (!user) {
-//         res.status(404);
-//         throw new Error("user not found");
-//     }
-
-//     const { email, password } = req.body;
-//     let obj;
-//     // obj.name = name;
-//     obj.email = email;
-//     obj.password = password;
-
-
-
-
-//     user = await User.findByIdAndUpdate(req.params.id, obj, {
-//         new: true,
-//         runValidators: true,
-//         useFindAndModify: false,
-//     });
-
-//     res.status(200).json({
-//         success: true,
-//         user,
-//     });
-// };
-
 
 module.exports.updateUser = async (req, res) => {
     try {
@@ -195,3 +166,26 @@ module.exports.updateUser = async (req, res) => {
         res.status(500).json({ error: "Internal server error" });
     }
 };
+
+
+// delete user
+module.exports.deleteUser = async (req, res) => {
+    try {
+        const user = User.findById(req.params.id);
+        if (!user) {
+            res.status(404);
+            throw new Error("User not found");
+        }
+
+        else {
+            user.deleteOne();
+            res.send('user deleted')
+        }
+    }
+
+    catch (err) {
+        res.status(500).json({ error: "Internal server error" });
+
+    }
+
+}
