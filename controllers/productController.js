@@ -29,10 +29,27 @@ module.exports.getProductsById = asyncHandler(async (req, res) => {
 });
 
 
+// // saving images
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, "uploads/");
+        // err, destination
+    },
+    filename: function (req, file, cb) {
+        const uniqueSuffix = Date.now();
+        cb(null, uniqueSuffix + file.originalname);
+    },
+});
+
+module.exports.upload = multer({ storage: storage });
+
+
 // create product
 module.exports.addProduct = async (req, res) => {
     try {
-        const { title, category, subCategories, inStock, description, price, thumbnail } = req.body;
+        const { title, category, subCategories, inStock, description, price } = req.body;
+        const thumbnail = req.file;
+
         if (!title || !category || !subCategories || !inStock || !description || !price || !thumbnail) {
             return res.status(400).json({ error: "Missing required credentials" });
         }
@@ -43,7 +60,7 @@ module.exports.addProduct = async (req, res) => {
             inStock,
             description,
             price,
-            thumbnail
+            thumbnail: storage.filename,
 
         });
         res.status(201).json({ msg: "Product created successfully" });
@@ -92,29 +109,3 @@ module.exports.deleteProduct = asyncHandler(async (req, res) => {
 });
 
 
-// // saving images
-// const storage = multer.diskStorage({
-//     destination: function (req, file, cb) {
-//         cb(null, "uploads/");
-//         // err, destination
-//     },
-//     filename: function (req, file, cb) {
-//         const uniqueSuffix = Date.now();
-//         cb(null, uniqueSuffix + file.originalname);
-//     },
-// });
-
-// module.exports.upload = multer({ storage: storage });
-
-// module.exports.placeOrderImg = async (req, res) => {
-//     console.log(req.body);
-//     const imgName = req.file.filename;
-//     try {
-//         await Product.create({
-//             image: imgName,
-//         });
-//         res.status(200).json({ status: "ok" });
-//     } catch (err) {
-//         res.status(400).json({ status: err });
-//     }
-// };

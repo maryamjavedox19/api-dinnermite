@@ -7,36 +7,36 @@ const mongoose = require('mongoose');
 const productSchema = new mongoose.Schema({
     title: {
         type: String,
-        required: [true, "please enter product title"],
+        // required: [true, "please enter product title"],
         trim: true,
     },
     category: {
         type: String,
-        required: [true, "please enter product category"],
+        // required: [true, "please enter product category"],
 
     },
     subCategories: {
         type: Array,
-        required: [true, "please enter product subCategories"],
+        // required: [true, "please enter product subCategories"],
     },
     inStock: {
         type: Number,
-        required: true,
+        // required: true,
     },
 
     description: {
         type: String,
-        required: true,
+        // required: true,
     },
 
     price: {
         type: Number,
-        required: true,
+        // required: true,
     },
 
     thumbnail: {
         type: String,
-        required: true,
+        // required: true,
     },
 
     // images: [imageSchema],
