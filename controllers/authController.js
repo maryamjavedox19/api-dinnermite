@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
+const bcrypt = require('bcrypt');
 
 // handle errors
 const handleErrors = (err) => {
@@ -129,39 +130,44 @@ module.exports.logout_get = (req, res) => {
 module.exports.updateUser = async (req, res) => {
     try {
         let user = await User.findById(req.params.id);
-        if (!user) {
+        if (user) {
+            const { name, email, password } = req.body;
+
+            const updateFields = {};
+            if (name) {
+                updateFields.name = name;
+
+            }
+            if (email) {
+                updateFields.email = email;
+            }
+            if (password) {
+                const hashedpassowrd = await bcrypt.hash(password, 11)
+                updateFields.password = hashedpassowrd;
+            }
+
+
+            user = await User.findByIdAndUpdate(
+                req.params.id,
+                updateFields,
+                {
+                    new: true,
+                    runValidators: true,
+                    useFindAndModify: false,
+                }
+            );
+
+            res.status(200).json({
+                success: true,
+                message: "updated successfully"
+            });
+        }
+
+        else {
             res.status(404);
             throw new Error("User not found");
         }
 
-        const { name, email, password } = req.body;
-
-        const updateFields = {};
-        if (name) {
-            updateFields.name = name;
-
-        }
-        if (email) {
-            updateFields.email = email;
-        }
-        if (password) {
-            updateFields.password = password;
-        }
-
-        user = await User.findByIdAndUpdate(
-            req.params.id,
-            updateFields,
-            {
-                new: true,
-                runValidators: true,
-                useFindAndModify: false,
-            }
-        );
-
-        res.status(200).json({
-            success: true,
-            user,
-        });
     } catch (error) {
         res.status(500).json({ error: "Internal server error" });
     }
@@ -178,7 +184,7 @@ module.exports.deleteUser = async (req, res) => {
         }
 
         else {
-            user.deleteOne();
+            await user.deleteOne();
             res.send('user deleted')
         }
     }
