@@ -49,10 +49,10 @@ module.exports.getAllUsers = async (req, res) => {
         if (user) {
             res.status(200).send(user);
         } else {
-            res.status(400).json({ message: "user not found" });
+            res.status(400).send("user not found");
         }
     } catch (err) {
-        res.status(400).json({ message: "internal server error" });
+        res.status(400).send("interval server error");
     }
 };
 
@@ -91,11 +91,11 @@ module.exports.login_post = async (req, res) => {
         if (!email || !password) {
             return res
                 .status(400)
-                .json({ message: "email and password are required" });
+                .send("email and password are required");
         }
         const user = await User.login(email, password);
         if (!user) {
-            return res.status(400).json({ errors: "User not found" });
+            return res.status(400).send("User not found");
         }
         const token = createToken(user._id);
         res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
@@ -115,14 +115,14 @@ module.exports.login_post = async (req, res) => {
 };
 
 
-module.exports.logout_get = (req, res) => {
-    const user = User.findById(req.params.id);
+module.exports.logout_get = async (req, res) => {
+    const user = await User.findById(req.params.id);
     if (user) {
         res.status(200);
         res.cookie("jwt", "", { maxAge: 1 });
-        res.json({ message: "user logged out" });
+        res.send("user logged out");
     } else {
-        res.status(400).json({ message: "user not found" });
+        res.status(400).send("user not found");
     }
 };
 
@@ -169,7 +169,7 @@ module.exports.updateUser = async (req, res) => {
         }
 
     } catch (error) {
-        res.status(500).json({ error: "Internal server error" });
+        res.status(500).send("Internal server error");
     }
 };
 
@@ -179,8 +179,7 @@ module.exports.deleteUser = async (req, res) => {
     try {
         const user = User.findById(req.params.id);
         if (!user) {
-            res.status(404);
-            throw new Error("User not found");
+            res.status(404).send("user not found");
         }
 
         else {
@@ -190,7 +189,7 @@ module.exports.deleteUser = async (req, res) => {
     }
 
     catch (err) {
-        res.status(500).json({ error: "Internal server error" });
+        res.status(500).send("Internal server error");
 
     }
 
