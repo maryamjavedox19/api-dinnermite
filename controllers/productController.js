@@ -48,10 +48,10 @@ module.exports.upload = multer({ storage: storage });
 module.exports.addProduct = async (req, res) => {
     try {
         const { title, category, subCategories, inStock, description, price } = req.body;
-        const thumbnail = req.file;
+        // const thumbnail = req.file;
 
-        if (!title || !category || !subCategories || !inStock || !description || !price || !thumbnail) {
-            return res.status(400).json({ error: "Missing required credentials" });
+        if (!title || !category || !subCategories || !inStock || !description || !price) {
+            return res.status(400).send("Missing required credentials");
         }
         const product = await Product.create({
             title,
@@ -60,13 +60,13 @@ module.exports.addProduct = async (req, res) => {
             inStock,
             description,
             price,
-            thumbnail: storage.filename,
+            // thumbnail: storage.filename,
 
         });
-        res.status(201).json({ msg: "Product created successfully" });
+        res.status(201).send("Product created successfully");
     } catch (err) {
         console.log(err);
-        res.status(500).json({ error: "Internal server error" });
+        res.status(500).send("Internal server error");
     }
 };
 
