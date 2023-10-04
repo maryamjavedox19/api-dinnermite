@@ -9,17 +9,17 @@ const handleErrors = (err) => {
 
     // incorrect email
     if (err.message === "incorrect email") {
-        errors.email = "That email is not registered";
+        errors.email = "Email/Password is incorrect";
     }
 
     // incorrect password
     if (err.message === "incorrect password") {
-        errors.password = "That password is incorrect";
+        errors.password = "Email/Password is incorrect";
     }
 
     // duplicate email error
     if (err.code === 11000) {
-        errors.email = "that email is already registered";
+        errors.email = "Email is already registered";
         return errors;
     }
 
@@ -79,7 +79,7 @@ module.exports.register_post = async (req, res) => {
         });
     } catch (err) {
         const errors = handleErrors(err);
-        const errorsText = Object.values(errors).join("");
+        const errorsText = Object.values(errors).join(" ");
         res.status(400).send(errorsText);
     }
 };
@@ -88,10 +88,22 @@ module.exports.register_post = async (req, res) => {
 module.exports.login_post = async (req, res) => {
     const { email, password } = req.body;
     try {
-        if (!email || !password) {
+        if (!email && !password) {
             return res
                 .status(400)
                 .send("email and password are required");
+        }
+
+        if (!email) {
+            return res
+                .status(400)
+                .send("email is required");
+        }
+
+        if (!password) {
+            return res
+                .status(400)
+                .send("password is required");
         }
         const user = await User.login(email, password);
         if (!user) {
@@ -109,7 +121,7 @@ module.exports.login_post = async (req, res) => {
         });
     } catch (err) {
         const errors = handleErrors(err);
-        const errorsText = Object.values(errors).join("");
+        const errorsText = Object.values(errors).join(" ");
         res.status(400).send(errorsText);
     }
 };
@@ -157,6 +169,7 @@ module.exports.updateUser = async (req, res) => {
                 }
             );
 
+
             res.status(200).json({
                 success: true,
                 message: "updated successfully"
@@ -164,12 +177,13 @@ module.exports.updateUser = async (req, res) => {
         }
 
         else {
-            res.status(404);
-            throw new Error("User not found");
+            res.status(404).send("user not found")
         }
 
-    } catch (error) {
-        res.status(500).send("Internal server error");
+    } catch (err) {
+        const errors = handleErrors(err);
+        const errorsText = Object.values(errors).join(" ");
+        res.status(400).send(errorsText);
     }
 };
 
