@@ -50,9 +50,9 @@ module.exports.addProduct = async (req, res) => {
         const { title, category, subCategories, inStock, description, price } = req.body;
         const thumbnail = req.file;
 
-        if (!title || !category || !subCategories || !inStock || !description || !price || !thumbnail) {
-            return res.status(400).send("Missing required credentials");
-        }
+        // if (!title || !category || !subCategories || !inStock || !description || !price || !thumbnail) {
+        //     return res.status(400).send("Missing required credentials");
+        // }
         const product = await Product.create({
             title,
             category,
