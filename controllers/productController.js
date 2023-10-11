@@ -60,7 +60,11 @@ module.exports.addProduct = async (req, res) => {
             inStock,
             description,
             price,
-            thumbnail: req.file.filename,
+
+            if(thumbnail) {
+                thumbnail: req.file.filename
+            }
+
 
         });
         res.status(201).send("Product created successfully");
