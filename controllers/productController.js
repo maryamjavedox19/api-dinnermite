@@ -53,20 +53,22 @@ module.exports.addProduct = async (req, res) => {
         // if (!title || !category || !subCategories || !inStock || !description || !price || !thumbnail) {
         //     return res.status(400).send("Missing required credentials");
         // }
-        const product = await Product.create({
+        const productData = {
             title,
             category,
             subCategories,
             inStock,
             description,
-            price,
+            price
 
-            if(thumbnail) {
-                thumbnail: req.file.filename
-            }
+        }
 
+        if (thumbnail) {
+            productData.thumbnail = req.file.filename
+        }
 
-        });
+        const product = await Product.create(productData);
+
         res.status(201).send("Product created successfully");
     } catch (err) {
         console.log(err);
