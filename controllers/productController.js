@@ -59,13 +59,14 @@ module.exports.addProduct = async (req, res) => {
             subCategories,
             inStock,
             description,
-            price
+            price,
+            thumbnail: thumbnail.filename
 
         }
 
-        if (thumbnail) {
-            productData.thumbnail = req.file.filename
-        }
+        // if (thumbnail) {
+        //     productData.thumbnail = thumbnail.filename
+        // }
 
         const product = await Product.create(productData);
 
