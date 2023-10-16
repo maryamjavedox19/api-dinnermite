@@ -60,13 +60,13 @@ module.exports.addProduct = async (req, res) => {
             inStock,
             description,
             price,
-            thumbnail: thumbnail.filename
+            // thumbnail: thumbnail.filename
 
         }
 
-        // if (thumbnail) {
-        //     productData.thumbnail = thumbnail.filename
-        // }
+        if (thumbnail) {
+            productData.thumbnail = thumbnail.filename
+        }
 
         const product = await Product.create(productData);
 
@@ -114,5 +114,4 @@ module.exports.deleteProduct = asyncHandler(async (req, res) => {
         message: "product deleted",
     });
 });
-
 
