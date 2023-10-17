@@ -36,10 +36,8 @@ app.use('/auth', authRoutes);
 app.use('/order', orderRoutes);
 app.use('/products', productRoutes);
 
-
 app.use(notFound);
 app.use(errHandler);
-
 
 app.listen(port, () => {
     console.log("listening");
