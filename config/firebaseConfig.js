@@ -8,3 +8,4 @@ module.exports.firebaseConfig = {
   measurementId: "G-8HWT09VN97",
 
 };
+
