@@ -1,4 +1,3 @@
-const dotenv = require("dotenv").config();
 const express = require("express");
 const app = express();
 const authRoutes = require("./routes/authRoutes");
@@ -12,6 +11,8 @@ const orderRoutes = require('./routes/orderRoutes');
 const cors = require('cors');
 
 app.use(cors());
+const dotenv = require("dotenv").config();
+
 
 app.use(express.static("public"));
 app.use(express.json());
@@ -36,8 +37,10 @@ app.use('/auth', authRoutes);
 app.use('/order', orderRoutes);
 app.use('/products', productRoutes);
 
+
 app.use(notFound);
 app.use(errHandler);
+
 
 app.listen(port, () => {
     console.log("listening");
