@@ -1,5 +1,4 @@
 const express = require("express");
-const app = express();
 const authRoutes = require("./routes/authRoutes");
 const productRoutes = require("./routes/productRoutes")
 const cookieParser = require("cookie-parser");
@@ -9,6 +8,7 @@ const { notFound, errHandler } = require('./middleware/errorMiddleware.js');
 const bodyParser = require("body-parser");
 const orderRoutes = require('./routes/orderRoutes');
 const cors = require('cors');
+const app = express();
 
 app.use(cors());
 const dotenv = require("dotenv").config();
