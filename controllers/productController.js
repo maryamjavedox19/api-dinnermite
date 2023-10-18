@@ -64,7 +64,7 @@ module.exports.getProductsById = asyncHandler(async (req, res) => {
 //         // if (!title || !category || !subCategories || !inStock || !description || !price || !thumbnail) {
 //         //     return res.status(400).send("Missing required credentials");
 //         // }
-//
+//     
 //         if (thumbnail) {
 //             const dateTime = giveCurrentDateTime();
 
@@ -114,60 +114,60 @@ module.exports.getProductsById = asyncHandler(async (req, res) => {
 // };
 
 
-// module.exports.addProduct = async (req, res) => {
-//     try {
-//         const { title, category, subCategories, inStock, description, price } = req.body;
-//         const thumbnail = req.file;
+module.exports.addProduct = async (req, res) => {
+    try {
+        const { title, category, subCategories, inStock, description, price } = req.body;
+        const thumbnail = req.file;
 
-//         if (!title || !category || !subCategories || !inStock || !description || !price || !thumbnail) {
-//             return res.status(400).send("Missing required credentials");
-//         }
+        if (!title || !category || !subCategories || !inStock || !description || !price || !thumbnail) {
+            return res.status(400).send("Missing required credentials");
+        }
 
-//         let downloadURL = '';
+        let downloadURL = '';
 
-//         if (thumbnail) {
-//             const dateTime = giveCurrentDateTime();
+        if (thumbnail) {
+            const dateTime = giveCurrentDateTime();
 
-//             const storageRef = ref(storage, `files/${req.file.originalname + "       " + dateTime}`);
+            const storageRef = ref(storage, `files/${req.file.originalname + "       " + dateTime}`);
 
-//             const metadata = {
-//                 contentType: req.file.mimetype,
-//             };
+            const metadata = {
+                contentType: req.file.mimetype,
+            };
 
-//             const snapshot = await uploadBytesResumable(storageRef, req.file.buffer, metadata);
+            const snapshot = await uploadBytesResumable(storageRef, req.file.buffer, metadata);
 
-//             downloadURL = await getDownloadURL(snapshot.ref);
+            downloadURL = await getDownloadURL(snapshot.ref);
 
-//             console.log('File successfully uploaded.');
-//         }
+            console.log('File successfully uploaded.');
+        }
 
-//         const productData = {
-//             title,
-//             category,
-//             subCategories,
-//             inStock,
-//             description,
-//             price,
-//             thumbnail: downloadURL,
-//         };
+        const productData = {
+            title,
+            category,
+            subCategories,
+            inStock,
+            description,
+            price,
+            thumbnail: downloadURL,
+        };
 
-//         const product = await Product.create(productData);
+        const product = await Product.create(productData);
 
-//         res.status(201).send("Product created successfully");
-//     } catch (err) {
-//         console.log(err);
-//         res.status(500).send("Internal server error");
-//     }
-// };
+        res.status(201).send("Product created successfully");
+    } catch (err) {
+        console.log(err);
+        res.status(500).send("Internal server error");
+    }
+};
 
 
-// const giveCurrentDateTime = () => {
-//     const today = new Date();
-//     const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-//     const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-//     const dateTime = date + ' ' + time;
-//     return dateTime;
-// }
+const giveCurrentDateTime = () => {
+    const today = new Date();
+    const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+    const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    const dateTime = date + ' ' + time;
+    return dateTime;
+}
 
 
 
