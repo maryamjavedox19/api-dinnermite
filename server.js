@@ -17,9 +17,7 @@ const dotenv = require("dotenv").config();
 app.use(express.static("public"));
 app.use(express.json());
 app.use(cookieParser());
-// app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json({ limit: '10mb' }));
-app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.set('view engine', 'ejs');
 
 
