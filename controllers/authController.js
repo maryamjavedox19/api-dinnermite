@@ -117,7 +117,8 @@ module.exports.login_post = async (req, res) => {
             _id: user._id,
             name: user.name,
             email: user.email,
-            address: user.address
+            address: user.address,
+            role
         });
     } catch (err) {
         const errors = handleErrors(err);
