@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const authController = require('../controllers/authController');
+const authAdminController = require('../controllers/adminPanelAuth');
 
 const router = Router();
 
@@ -11,5 +12,14 @@ router.post('/login', authController.login_post);
 router.get('/logout/:id', authController.logout_get);
 router.put('/update/:id', authController.updateUser);
 router.delete('/delete/:id', authController.deleteUser);
+
+
+
+// admin routes
+
+router.post('/admin/register', authAdminController.admin_register);
+router.post('/admin/login', authAdminController.admin_login);
+router.get('/admin/logout/:id', authAdminController.admin_logout);
+router.delete('/admin/delete/:id', authAdminController.admin_delete_user);
 
 module.exports = router;
