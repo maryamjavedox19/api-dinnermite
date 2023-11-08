@@ -1,6 +1,6 @@
-const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const bcrypt = require('bcrypt');
+const AdminUsers = require("../models/AdminUser");
 
 // handle errors
 const handleErrors = (err) => {
@@ -45,7 +45,7 @@ module.exports.admin_register = async (req, res) => {
     const { name, email, password, address, profilePic } = req.body;
 
     try {
-        const user = await User.create({
+        const user = await AdminUsers.create({
             name,
             email,
             password,
@@ -90,7 +90,7 @@ module.exports.admin_login = async (req, res) => {
                 .status(400)
                 .send("password is required");
         }
-        const user = await User.login(email, password);
+        const user = await AdminUsers.login(email, password);
         if (!user) {
             return res.status(400).send("User not found");
         }
@@ -114,7 +114,7 @@ module.exports.admin_login = async (req, res) => {
 
 
 module.exports.admin_logout = async (req, res) => {
-    const user = await User.findById(req.params.id);
+    const user = await AdminUsers.findById(req.params.id);
     if (user) {
         res.status(200);
         res.cookie("jwt", "", { maxAge: 1 });
@@ -127,7 +127,7 @@ module.exports.admin_logout = async (req, res) => {
 // delete user
 module.exports.admin_delete_user = async (req, res) => {
     try {
-        const user = User.findById(req.params.id);
+        const user = AdminUsers.findById(req.params.id);
         if (!user) {
             res.status(404).send("user not found");
         }
@@ -140,7 +140,5 @@ module.exports.admin_delete_user = async (req, res) => {
 
     catch (err) {
         res.status(500).send("Internal server error");
-
     }
-
 }
