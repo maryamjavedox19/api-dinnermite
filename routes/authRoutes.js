@@ -19,7 +19,8 @@ router.delete('/delete/:id', authController.deleteUser);
 
 router.post('/admin/register', authAdminController.admin_register);
 router.post('/admin/login', authAdminController.admin_login);
-router.get('/admin/logout/:id', authAdminController.admin_logout);
+router.put('/admin/update/:id', authAdminController.updateAdmin);
 router.delete('/admin/delete/:id', authAdminController.admin_delete_user);
+router.get('/admin/logout/:id', authAdminController.admin_logout);
 
 module.exports = router;

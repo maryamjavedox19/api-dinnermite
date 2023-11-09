@@ -127,7 +127,7 @@ module.exports.admin_logout = async (req, res) => {
 // updateuser
 
 
-module.exports.updateUser = async (req, res) => {
+module.exports.updateAdmin = async (req, res) => {
     try {
         let user = await AdminUsers.findById(req.params.id);
         if (user) {
