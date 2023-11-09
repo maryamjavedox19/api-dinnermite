@@ -124,6 +124,58 @@ module.exports.admin_logout = async (req, res) => {
     }
 };
 
+// updateuser
+
+
+module.exports.updateUser = async (req, res) => {
+    try {
+        let user = await AdminUsers.findById(req.params.id);
+        if (user) {
+            const { name, email, password } = req.body;
+
+            const updateFields = {};
+            if (name) {
+                updateFields.name = name;
+
+            }
+            if (email) {
+                updateFields.email = email;
+            }
+            if (password) {
+                const hashedpassowrd = await bcrypt.hash(password, 11)
+                updateFields.password = hashedpassowrd;
+            }
+
+
+            user = await AdminUsers.findByIdAndUpdate(
+                req.params.id,
+                updateFields,
+                {
+                    new: true,
+                    runValidators: true,
+                    useFindAndModify: false,
+                }
+            );
+
+
+            res.status(200).json({
+                success: true,
+                message: "updated successfully"
+            });
+        }
+
+        else {
+            res.status(404).send("user not found")
+        }
+
+    } catch (err) {
+        const errors = handleErrors(err);
+        const errorsText = Object.values(errors).join(" ");
+        res.status(400).send(errorsText);
+    }
+};
+
+
 // delete user
 module.exports.admin_delete_user = async (req, res) => {
     try {
